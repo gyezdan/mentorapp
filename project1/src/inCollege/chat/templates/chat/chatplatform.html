@@ -1,0 +1,83 @@
+{% extends 'forum/base.html' %}
+
+{% block content %}
+<h3 class=" text-center">Messaging</h3>
+<div class="messaging" >
+      <div class="inbox_msg" >
+        <div class="inbox_people" >
+          <div class="headind_srch" >
+            <div class="recent_heading">
+              <h4>Recent</h4>
+            </div>
+            <div class="srch_bar">
+              <div class="stylish-input-group">
+                <input type="text" class="search-bar"  placeholder="Search" >
+                <span class="input-group-addon">
+                <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                </span> </div>
+            </div>
+          </div>     
+        {% for user in users%}
+        <div class="chat_list">
+          <div class="chat_people">
+            <div class="chat_img"> <img src="{{ user.profile.profilePicture.url }}"> </div>
+            <div class="chat_ib">
+              <h5> {{ user.profile.firstName}} <span class="chat_date">Dec 25</span></h5>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+       </div>
+       <div >
+            <div>
+            <div id="board" class="section grey lighten-3" style="height: 68vh; padding: 5px; overflow-y: scroll">
+                {% block messages %}
+                {% endblock %}   
+      </div>
+    </div>
+
+            <form id="chat-box" class="form-group {% block hide %}hide{% endblock %}" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col s11">
+                        <div class="input-field">
+                            <input id="id_message" name="message" type="text" placeholder="Type your message..">
+                        </div>
+                    </div>
+                    <div class="col s1" style="line-height: 80px">
+                        <button class="btn btn-floating blue lighten-2 waves-effect waves-light"><i class="material-icons">send</i></button>
+                    </div>
+                </div>
+            </form>
+    </div>  
+  </div>
+</div>
+
+    {% load staticfiles %}
+    <script>
+        // For receiving
+        sender_id = "{{ receiver.id }}";
+        receiver_id = "{{ request.user.id }}";
+
+        //For sending
+        $(function () {
+            scrolltoend();
+            $('#chat-box').on('submit', function (event) {
+                event.preventDefault();
+                var message = $('#id_message');
+                send('{{ request.user.username }}', '{{ receiver.username }}', message.val());
+                message.val('');
+            })
+            setInterval(() => {
+                getUsers({{ request.user.id }}, doc => {
+                    let list = ''
+                    doc.map(userItem => {
+                        list += userItem
+                    })
+                    $('#users').html(list)
+                });
+            }, 1000)                  
+    </script>
+
+
+{% endblock content %}

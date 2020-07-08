@@ -1,0 +1,136 @@
+{% extends "forum/base.html" %}
+{% block content %}
+  <h4> Advanced Search </h4>
+      <form method="GET" action=".">
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" type="search" name="fullname" placeholder="Name..." />
+                    <span class="input-group-append">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </span>
+                </div>
+            </div>        
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" type="search" name="major" placeholder="Major/Minor..." />
+                    <span class="input-group-append">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </span>
+                </div>
+            </div>        
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" type="search" name="institute" placeholder="Current School..." />
+                    <span class="input-group-append">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </span>
+                </div>
+            </div>        
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" type="search" name="communities" placeholder="Communities..." />
+                    <span class="input-group-append">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </span>
+                </div>
+            </div>        
+        </div>      
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="category">High School City</label>
+            <input class="form-control py-2 " name="highschool_city" placeholder="City" />
+          </div>
+          <div class="form-group col-md-3">
+            <label for="category">High School Country</label>
+            <select id="category" class="form-control" name="highschool_country">
+            <option value="None" selected disabled hidden> 
+               Select a Country 
+              </option> 
+              {% for cat in country_cat %}
+              <option value="{{ cat }}">{{ cat }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="category">University City</label>
+            <input class="form-control py-2 " name="uni_city" placeholder="City" />
+          </div>
+          <div class="form-group col-md-3">
+            <label for="category">University Country</label>
+            <select id="category" class="form-control" name="uni_country">
+            <option value="None" selected disabled hidden> 
+               Select a Country 
+              </option> 
+              {% for cat in country_cat %}
+              <option value="{{ cat }}">{{ cat }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="highschool_grad">High School Graduation Year</label>
+            <input type="number" min=1995 class="form-control" id="highschool_grad" placeholder="Year/Expected Year" name="highschool_grad">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="uni_grad">University Graduation Year</label>
+            <input type="number" min=1995 class="form-control" id="uni_grad" placeholder="Year/Expected Year" name="uni_grad">
+          </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" type="search" name="prof_interests" placeholder="Professional Interests..." />
+                    <span class="input-group-append">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </span>
+                </div>
+            </div>        
+        </div>
+<!--         <div class="form-group">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="reviewed" name="reviewed">
+            <label class="form-check-label" for="reviewed">
+              Reviewed
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="notReviewed" name="notReviewed">
+            <label class="form-check-label" for="notReviewed">
+              Not reviewed
+            </label>
+          </div>
+        </div> -->
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+  {% for mentor in results %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ mentor.profilePicture.url|default_if_none:'default.png'  }}">
+        <div class="media-body">
+          <h2 class="account-heading"> <a class="mr-2" href="{% url 'viewprofile' mentor.user.id %}"> {{mentor.firstName }} {{ mentor.lastName}} </a></h2>
+          <p class="text-secondary">{{ mentor.major1}} major at {{ mentor.currentInstitute }} living in {{mentor.basedCity}}, {{mentor.basedCountry}} from {{mentor.homeCity}},  {{mentor.homeCountry}}</p>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock content %}

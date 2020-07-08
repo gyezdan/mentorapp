@@ -1,0 +1,33 @@
+{% extends "forum/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.profilePicture.url|default_if_none:'default.png'  }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.profile.firstName }} {{ user.profile.lastName}}</h2>
+          <p class="text-secondary">{{ user.profile.major1}} major at {{ user.profile.currentInstitute }} living in {{user.profile.basedCity}}, {{user.profile.basedCountry}} from {{user.profile.homeCity}},  {{user.profile.homeCountry}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="border-top pt-3">
+        <h5>Posts</h5>
+    </div>
+    <div>
+    {% for post in posts %}
+      <article class="media content-section">
+        <div class="media-left">
+        <img src="{{ post.author.profile.profilePicture.url }}" class="rounded-circle" style="width:80px">
+        </div>
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="{% url 'profile' %}">{{ post.author.profile.firstName}}</a>
+            <small class="text-muted">{{ post.date_posted }}</small>
+          </div>
+          <h5><a class="article-title" href="{% url 'postview' post.id %}">{{ post.title }}</a></h5>
+          <p class="article-content">{{ post.content }}</p>
+          <small><a class="ml-2" href="{% url 'postview' post.id %}">Advise/See Thread</a></small>
+          </div>
+      </article>
+    {% endfor %}
+{% endblock content %}

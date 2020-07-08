@@ -1,0 +1,21 @@
+{% extends "forum/base.html" %}
+{% block content %}
+<div class = "search-bar mt=sm-2 mr-2">
+  <form method = 'GET' action = "{% url 'mentorsearch' %}">
+    <input type = "text" class = "form-control" name = "q" id = "id_q" placeholder = "Search for People" value = "{{requets.GET.q}}"> 
+    <button class = "btn" type = "submit"> Go! </button>
+    <p><a href = "{% url 'advancedsearch' %}"> Advanced Search</a></p>
+  </form>
+</div>
+  {% for mentor in results %}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ mentor.profilePicture.url|default_if_none:'default.png'  }}">
+        <div class="media-body">
+          <h2 class="account-heading"> <a class="mr-2" href="{% url 'viewprofile' mentor.user.id %}"> {{mentor.firstName }} {{ mentor.lastName}} </a></h2>
+          <p class="text-secondary">{{ mentor.major1}} major at {{ mentor.currentInstitute }} living in {{mentor.basedCity}}, {{mentor.basedCountry}} from {{mentor.homeCity}},  {{mentor.homeCountry}}</p>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock content %}

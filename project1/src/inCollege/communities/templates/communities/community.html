@@ -1,0 +1,30 @@
+{% extends "forum/base.html" %}
+{% block content %}
+    <div class="border-top pt-3">
+        <h1 style="text-align:center"> {{ community.community_name }}</h1>
+    </div>
+    <h4> Posts in this Community </h4>
+    <form action = "{% url 'add_community' community.id %}" method = "POST" > {% csrf_token %}
+    <input type="hidden" name="next" value="{% url 'community' community.id %}">
+    <button type = 'submit' class = "btn btn-primary btn-sm"> Join</button>
+  </form>
+    {% for post in community_posts %}
+      <article class="media content-section">
+        <div class="media-left">
+        <img src="{{ post.author.profile.profilePicture.url }}" class="rounded-circle" style="width:80px">
+        </div>
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="{% url 'viewprofile' post.author.id %}">{{ post.author.profile.firstName}}</a>
+            <small class="text-muted">{{ post.date_posted }}</small>
+          </div>
+          <h5><a class="article-title" href="{% url 'postview' post.id %}">{{ post.title }}</a></h5>
+          <p class="article-content">{{ post.content }}</p>
+          {% for comm in post.communities.all %}
+          <p> <a class="ml-2" href="{% url 'community' community.id %}"> {{ comm.community_name }} </p>
+          {% endfor %}
+          <small><a class="ml-2" href="{% url 'postview' post.id %}">Advise/See Thread</a></small>
+        </div>
+      </article>
+    {% endfor %}
+{% endblock content %}

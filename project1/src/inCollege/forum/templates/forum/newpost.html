@@ -1,0 +1,45 @@
+{% extends "forum/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+      <form method="POST" action=".">{% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" name="title" placeholder="Title" />
+                </div>
+            </div>        
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" name="content" placeholder="Post" />
+                </div>
+            </div>        
+        </div>
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <input class="form-control py-2" id = "community_1" name="community_1" placeholder="Community" />
+              </div>
+              <div class="form-group col-md-3">
+                <input class="form-control py-2 " id = "community_2" name="community_2" placeholder="Community"/>
+              </div>
+              <div class="form-group col-md-3">
+                <input class="form-control py-2 " id = "community_3" name="community_3" placeholder="Community"/>
+              </div>
+              <div class="form-group col-md-3">
+                <input class="form-control py-2 " id= "community_4" name="community_4" placeholder="Community"/>
+              </div>
+          </div>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Get Advice!</button>
+            </div>
+            </fieldset> 
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Changed Your Mind? <a class="ml-2" href="{% url 'forum' %}">Cancel</a>
+            </small>
+        </div>
+    </div>
+    {% endblock content %}
